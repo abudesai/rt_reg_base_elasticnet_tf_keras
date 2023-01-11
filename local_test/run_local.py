@@ -100,11 +100,6 @@ def copy_example_files(dataset_name):
         f"{local_datapath}/{dataset_name}/{dataset_name}_test.csv",
         os.path.join(test_data_path, f"{dataset_name}_test.csv"),
     )
-    # hyperparameters
-    shutil.copyfile(
-        "./examples/hyperparameters.json",
-        os.path.join(hyper_param_path, "hyperparameters.json"),
-    )
 
 
 def run_HPT(num_hpt_trials):
@@ -146,9 +141,9 @@ def load_and_test_algo():
     # set id and target fields for scoring
     set_id_and_target_cols(data_schema)
     # instantiate the trained model
-    predictor = model_server.ModelServer(model_artifacts_path)
+    predictor = model_server.ModelServer(model_artifacts_path, data_schema)
     # make predictions
-    predictions = predictor.predict(test_data, data_schema)
+    predictions = predictor.predict(test_data)
     # save predictions
     predictions.to_csv(
         os.path.join(testing_outputs_path, "test_predictions.csv"), index=False
@@ -266,7 +261,7 @@ if __name__ == "__main__":
         "white_wine",
         "ailerons",
     ]
-    datasets = ["auto_prices"]
+    datasets = ["abalone"]
 
     for run_hpt in run_hpt_list:
         all_results = []

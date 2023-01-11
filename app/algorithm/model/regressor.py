@@ -54,7 +54,7 @@ class Regressor:
         output_ = Dense(1, activity_regularizer=reg)(x)
 
         model = Model(input_, output_)
-        model.summary()
+        # model.summary()
         return model
 
     def fit(
